@@ -12,9 +12,9 @@ namespace UserService.Core.Base.Handler
         protected DbContext DbContext { get; }
         protected IMapper Mapper { get; }
 
-        protected HandlerBase(/*DbContext dbContext,*/ IMapper mapper)
+        protected HandlerBase(DbContext dbContext, IMapper mapper)
         {
-            //DbContext = dbContext;
+            DbContext = dbContext;
             Mapper = mapper;
         }
 
@@ -27,9 +27,9 @@ namespace UserService.Core.Base.Handler
         protected DbContext DbContext { get; }
         protected IMapper Mapper { get; }
 
-        protected HandlerBase(/*DbContext dbContext,*/ IMapper mapper)
+        protected HandlerBase(DbContext dbContext, IMapper mapper)
         {
-            //DbContext = dbContext;
+            DbContext = dbContext;
             Mapper = mapper;
         }
 

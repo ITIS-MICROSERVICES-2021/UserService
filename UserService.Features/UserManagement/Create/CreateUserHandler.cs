@@ -11,7 +11,7 @@ namespace UserService.Features.UserManagement.Create
     [UsedImplicitly]
     public class CreateUserHandler : HandlerBase<CreateUserCommand, Unit?>
     {
-        public CreateUserHandler(/*DbContext dbContext,*/ IMapper mapper) : base(/*dbContext,*/ mapper)
+        public CreateUserHandler(DbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
 

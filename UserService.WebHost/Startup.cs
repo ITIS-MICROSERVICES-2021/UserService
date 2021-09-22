@@ -34,6 +34,7 @@ namespace UserService.WebHost
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "UserService.WebHost", Version = "v1"});
             });
             services.AddAutoMapper(mc => { mc.AddMaps(typeof(UserManagementController).Assembly); });
+            services.AddScoped<DbContext, UserServiceDbContext>();
             RegisterMediaR(services);
         }
 
