@@ -48,5 +48,25 @@ namespace UserService.Core.Entities
         /// Полное наименование компании
         /// </summary>
         public string CompanyFullName { get; protected set; }
+
+        public void ChangeSurname(string surname)
+        {
+            Surname = surname;
+        }
+        
+        public void ChangeName(string name)
+        {
+            Name = name;
+        }
+        
+        public void ChangePosition(string position)
+        {
+            Position = position;
+        }
+        
+        public void ChangeManager(string manager)
+        {
+            ManagerFullName = manager;
+        }
     }
 }
