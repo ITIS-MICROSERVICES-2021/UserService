@@ -26,6 +26,7 @@ namespace UserService.Features.UserManagement
             return Ok(await Mediator.Send(command));
         }
 
+        [Authorize]
         [HttpPost("edit")]
         public async Task<IActionResult> Edit(EditUserInputDto input)
         {
