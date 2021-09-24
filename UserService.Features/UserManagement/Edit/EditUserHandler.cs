@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,45 +16,46 @@ namespace UserService.Features.UserManagement.Edit
 
         public override async Task<User> Handle(EditUserCommand request, CancellationToken cancellationToken)
         {
-            ChangeSurname(request.EditUserInputDto.Surname, request.User);
-            ChangeName(request.EditUserInputDto.Name, request.User);
-            ChangeManager(request.EditUserInputDto.ManagerFullName, request.User);
-            ChangePosition(request.EditUserInputDto.Position, request.User);
+            ChangeProperty(request.EditUserInputDto.Name,
+                (newName)=> ValidateFunc(newName,request.User.Name), 
+                (newName)=>request.User.ChangeName(newName));
+            
+            ChangeProperty(request.EditUserInputDto.Surname, 
+                newSurname=> ValidateFunc(newSurname,request.User.Surname),
+                newSurname=>request.User.ChangePatronymic(newSurname));
+
+            ChangeProperty(request.EditUserInputDto.Patronymic, 
+                newPatronymic=> ValidateFunc(newPatronymic,request.User.Patronymic),
+                newPatronymic=>request.User.ChangePatronymic(newPatronymic));
+
+            ChangeProperty(request.EditUserInputDto.ManagerFullName, 
+                newManagerFullName=> ValidateFunc(newManagerFullName,request.User.ManagerFullName),
+                newManagerFullName=>request.User.ChangeManager(newManagerFullName));
+            
+            ChangeProperty(request.EditUserInputDto.Position, 
+                newPosition=> ValidateFunc(newPosition,request.User.Position),
+                newPosition=>request.User.ChangePosition(newPosition));
+            
+            ChangeProperty(request.EditUserInputDto.CompanyName, 
+                newCompanyName=> ValidateFunc(newCompanyName,request.User.Position),
+                newCompanyName=>request.User.ChangePosition(newCompanyName));
+
 
             await DbContext.SaveChangesAsync(cancellationToken);
             return request.User;
         }
 
-        private void ChangeSurname(string surname, User user)
+        private void ChangeProperty<T>(T newPropertyValue, Func<T, bool> validateFunc, Action<T> changingFunc)
         {
-            if (!string.IsNullOrEmpty(surname))
+            if (validateFunc(newPropertyValue))
             {
-                user.ChangeSurname(surname);
+                changingFunc(newPropertyValue);
             }
         }
 
-        private void ChangeName(string name, User user)
+        private bool ValidateFunc(string newValue, string oldValue)
         {
-            if (!string.IsNullOrEmpty(name))
-            {
-                user.ChangeName(name);
-            }
-        }
-
-        private void ChangeManager(string manager, User user)
-        {
-            if (!string.IsNullOrEmpty(manager))
-            {
-                user.ChangeManager(manager);
-            }
-        }
-
-        private void ChangePosition(string position, User user)
-        {
-            if (!string.IsNullOrEmpty(position))
-            {
-                user.ChangePosition(position);
-            }
+            return !string.IsNullOrEmpty(newValue) && newValue != oldValue;
         }
     }
 }

@@ -49,6 +49,8 @@ namespace UserService.Core.Entities
         /// </summary>
         public string CompanyFullName { get; protected set; }
 
+        #region EditProperties
+
         public void ChangeSurname(string surname)
         {
             Surname = surname;
@@ -68,5 +70,17 @@ namespace UserService.Core.Entities
         {
             ManagerFullName = manager;
         }
+        
+        public void ChangePatronymic(string patronymic)
+        {
+            Patronymic = patronymic;
+        }
+        
+        public void ChangeCompanyFullName(string companyFullName)
+        {
+            CompanyFullName = companyFullName;
+        }
+
+        #endregion
     }
 }

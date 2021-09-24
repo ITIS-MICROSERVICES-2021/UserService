@@ -13,6 +13,11 @@ namespace UserService.Features.UserManagement.Edit
         public string Name { get; set; }
         
         /// <summary>
+        /// Отчество
+        /// </summary>
+        public string Patronymic { get; set; }
+        
+        /// <summary>
         /// Должность
         /// </summary>
         public string Position { get; set; }
@@ -21,5 +26,10 @@ namespace UserService.Features.UserManagement.Edit
         /// ФИО генерального директора
         /// </summary>
         public string ManagerFullName { get; set; }
+        
+        /// <summary>
+        /// Полное наименование компании
+        /// </summary>
+        public string CompanyName { get; set; }
     }
 }
