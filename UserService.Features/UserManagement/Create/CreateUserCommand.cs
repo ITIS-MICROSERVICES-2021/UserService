@@ -1,14 +1,16 @@
 ﻿using MediatR;
+using UserService.Core.Entities;
 
 namespace UserService.Features.UserManagement.Create
 {
-    public class CreateUserCommand : IRequest<Unit?>
+    public class CreateUserCommand : IRequest<User>
     {
-        public CreateUserCommand(object someProp)
+        public User User { get; set; }
+        public CreateUserInputDto CreateUserInputDto { get; set; }
+        
+        public CreateUserCommand(CreateUserInputDto createUserInput)
         {
-            SomeProp = someProp;
+            CreateUserInputDto = createUserInput;
         }
-
-        public object SomeProp { get; protected set; }
     }
 }

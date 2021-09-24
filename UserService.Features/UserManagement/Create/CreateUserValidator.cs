@@ -9,7 +9,7 @@ namespace UserService.Features.UserManagement.Create
         //пример
         public CreateUserValidator()
         {
-            RuleFor(x => x.SomeProp).NotEmpty()
+            RuleFor(x => x.CreateUserInputDto).NotEmpty()
                 .WithMessage("Sample")
                 .WithErrorCode("422");
         }

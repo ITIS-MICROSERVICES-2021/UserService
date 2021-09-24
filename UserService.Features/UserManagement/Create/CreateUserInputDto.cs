@@ -1,10 +1,14 @@
-﻿namespace UserService.Features.UserManagement.TelegramBotHelper
+﻿using System;
+
+namespace UserService.Features.UserManagement.Create
 {
-    /// <summary>
-    /// Dto для ввода пользовательских данных при первом взаимодействии с Telegram-ботом
-    /// </summary>
-    public class InputUserDataDto
+    public class CreateUserInputDto
     {
+        /// <summary>
+        /// Идентификатор пользователя в Telegram
+        /// </summary>
+        public Guid TelegramId { get; set; } //TODO: уточнить тип
+        
         /// <summary>
         /// Фамилия
         /// </summary>
