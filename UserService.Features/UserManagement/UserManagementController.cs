@@ -7,6 +7,7 @@ using UserService.Core.Base;
 using UserService.Core.Entities;
 using UserService.Features.UserManagement.Create;
 using UserService.Features.UserManagement.Edit;
+using UserService.Features.UserManagement.TelegramBotHelper;
 
 namespace UserService.Features.UserManagement
 {
@@ -32,6 +33,15 @@ namespace UserService.Features.UserManagement
         {
             var user = await _userManager.GetUserAsync(User);
             var command = new EditUserCommand(input, user);
+            return Ok(await Mediator.Send(command));
+        }
+        
+        [Authorize]
+        [HttpPost("inputuserdata")]
+        public async Task<IActionResult> Edit(InputUserDataDto input)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var command = new InputUserDataCommand(input, user);
             return Ok(await Mediator.Send(command));
         }
     }

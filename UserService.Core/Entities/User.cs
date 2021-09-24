@@ -58,7 +58,12 @@ namespace UserService.Core.Entities
         {
             Name = name;
         }
-        
+
+        public void ChangePatronymic(string patronymic)
+        {
+            Patronymic = patronymic;
+        }
+
         public void ChangePosition(string position)
         {
             Position = position;
@@ -67,6 +72,11 @@ namespace UserService.Core.Entities
         public void ChangeManager(string manager)
         {
             ManagerFullName = manager;
+        }
+
+        public void ChangeCompanyName(string companyName)
+        {
+            CompanyFullName = companyName;
         }
     }
 }
