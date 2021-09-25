@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Core.Base;
@@ -27,8 +26,7 @@ namespace UserService.Features.UserManagement
             return Ok(await Mediator.Send(command));
         }
 
-        [Authorize]
-        [HttpPost("edit")]
+        [HttpPut]
         public async Task<IActionResult> Edit(EditUserInputDto input)
         {
             var user = await _userManager.GetUserAsync(User);
