@@ -18,7 +18,7 @@ namespace UserService.Features.UserManagement.Create
 
         public override async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            request.User = new User
+            var user = new User
             (
                 request.CreateUserInputDto.Surname,
                 request.CreateUserInputDto.Name,
@@ -27,9 +27,10 @@ namespace UserService.Features.UserManagement.Create
                 request.CreateUserInputDto.ManagerFullName,
                 request.CreateUserInputDto.CompanyFullName
             );
-
+            
+            var userEntry = DbContext.Set<User>().Add(user);
             await DbContext.SaveChangesAsync(cancellationToken);
-            return request.User;
+            return userEntry.Entity;
         }
     }
 }

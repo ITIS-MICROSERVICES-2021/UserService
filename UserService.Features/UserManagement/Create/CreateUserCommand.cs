@@ -5,8 +5,7 @@ namespace UserService.Features.UserManagement.Create
 {
     public class CreateUserCommand : IRequest<User>
     {
-        public User User { get; set; }
-        public CreateUserInputDto CreateUserInputDto { get; set; }
+        public CreateUserInputDto CreateUserInputDto { get; }
         
         public CreateUserCommand(CreateUserInputDto createUserInput)
         {

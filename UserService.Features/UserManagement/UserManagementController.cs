@@ -22,7 +22,6 @@ namespace UserService.Features.UserManagement
         public async Task<IActionResult> Create(CreateUserInputDto input)
         {
             var command = new CreateUserCommand(input);
-            await _userManager.CreateAsync(command.User);
             return Ok(await Mediator.Send(command));
         }
 
