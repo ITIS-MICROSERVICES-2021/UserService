@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UserService.Core.Base.Validation;
+using UserService.Core.Entities;
 using UserService.Data;
 using UserService.Features.UserManagement;
 
@@ -26,6 +27,10 @@ namespace UserService.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<UserServiceDbContext>(opt => opt.UseInMemoryDatabase("UserService"));
+            
+            services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<UserServiceDbContext>();
+            
             services.AddControllers()
                 .AddApplicationPart(typeof(UserManagementController).Assembly)
                 .AddNewtonsoftJson();
@@ -33,6 +38,7 @@ namespace UserService.WebHost
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "UserService.WebHost", Version = "v1"});
             });
+            services.AddHttpClient();
             services.AddAutoMapper(mc => { mc.AddMaps(typeof(UserManagementController).Assembly); });
             services.AddScoped<DbContext, UserServiceDbContext>();
             RegisterMediaR(services);
