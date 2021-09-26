@@ -15,23 +15,28 @@ namespace UserService.Features.UserManagement.Edit
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.Name)))
                 .WithErrorCode("422");
             
-            RuleFor(x => x.EditUserInputDto.Surname).MaximumLength(64)
+            RuleFor(x => x.EditUserInputDto.Surname)
+                .MaximumLength(64)
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.Surname)))
                 .WithErrorCode("422");
             
-            RuleFor(x => x.EditUserInputDto.Patronymic).MaximumLength(64)
+            RuleFor(x => x.EditUserInputDto.Patronymic)
+                .MaximumLength(64)
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.Patronymic)))
                 .WithErrorCode("422");
             
-            RuleFor(x => x.EditUserInputDto.Position).MaximumLength(64)
+            RuleFor(x => x.EditUserInputDto.Position)
+                .MaximumLength(64)
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.Position)))
                 .WithErrorCode("422");
             
-            RuleFor(x => x.EditUserInputDto.CompanyName).MaximumLength(64)
+            RuleFor(x => x.EditUserInputDto.CompanyName)
+                .MaximumLength(64)
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.CompanyName)))
                 .WithErrorCode("422");
             
-            RuleFor(x => x.EditUserInputDto.ManagerFullName).MaximumLength(64)
+            RuleFor(x => x.EditUserInputDto.ManagerFullName)
+                .MaximumLength(64)
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.ManagerFullName)))
                 .WithErrorCode("422");
         }

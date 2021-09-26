@@ -1,17 +1,16 @@
-﻿using FluentValidation;
+﻿using System.Linq;
+using FluentValidation;
 using JetBrains.Annotations;
+using UserService.Core.Entities;
 
 namespace UserService.Features.UserManagement.Create
 {
     [UsedImplicitly]
     public class CreateUserValidator : AbstractValidator<CreateUserCommand>
     {
-        //пример
         public CreateUserValidator()
         {
-            RuleFor(x => x.CreateUserInputDto).NotEmpty()
-                .WithMessage("Sample")
-                .WithErrorCode("422");
+            RuleForEach(userFields => typeof(User).GetProperties().ToList()).NotNull();
         }
     }
 }
