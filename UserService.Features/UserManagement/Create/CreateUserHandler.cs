@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using JetBrains.Annotations;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UserService.Core.Base.Handler;
 using UserService.Core.Entities;
@@ -23,9 +22,11 @@ namespace UserService.Features.UserManagement.Create
                 request.CreateUserInputDto.Surname,
                 request.CreateUserInputDto.Name,
                 request.CreateUserInputDto.Patronymic,
-                request.CreateUserInputDto.Post,
+                request.CreateUserInputDto.Position,
                 request.CreateUserInputDto.ManagerFullName,
-                request.CreateUserInputDto.CompanyFullName
+                request.CreateUserInputDto.CompanyName,
+                request.CreateUserInputDto.Salary,
+                request.CreateUserInputDto.RecruitmentDate
             );
             
             var userEntry = DbContext.Set<User>().Add(user);

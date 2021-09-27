@@ -1,3 +1,4 @@
+using System;
 using FluentValidation;
 using JetBrains.Annotations;
 
@@ -38,6 +39,16 @@ namespace UserService.Features.UserManagement.Edit
             RuleFor(x => x.EditUserInputDto.ManagerFullName)
                 .MaximumLength(64)
                 .WithMessage(GenerateLengthErrorMessage(nameof(EditUserCommand.EditUserInputDto.ManagerFullName)))
+                .WithErrorCode("422");
+            
+            RuleFor(x => x.EditUserInputDto.Salary)
+                .GreaterThan(0)
+                .WithMessage("Заработная плата не должна быть меньше нуля")
+                .WithErrorCode("422");
+            
+            RuleFor(x => x.EditUserInputDto.RecruitmentDate)
+                .LessThanOrEqualTo(DateTime.UtcNow.Date)
+                .WithMessage("Вас не могут нанять в будущем времени")
                 .WithErrorCode("422");
         }
 

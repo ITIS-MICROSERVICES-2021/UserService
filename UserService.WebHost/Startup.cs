@@ -26,8 +26,8 @@ namespace UserService.WebHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserServiceDbContext>(opt => opt.UseInMemoryDatabase("UserService"));
-            
+            services.AddDbContext<UserServiceDbContext>(builder => builder
+                .UseNpgsql(Configuration.GetConnectionString("PostgresLocal")));
             services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<UserServiceDbContext>();
             

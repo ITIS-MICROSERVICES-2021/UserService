@@ -19,12 +19,12 @@ namespace UserService.Features.UserManagement.Edit
         public override async Task<User> Handle(EditUserCommand request, CancellationToken cancellationToken)
         {
             ChangeProperty(request.EditUserInputDto.Name,
-                (newName) => ValidateFunc(newName, request.User.Name),
-                (newName) => request.User.ChangeName(newName));
+                newName => ValidateFunc(newName, request.User.Name),
+                newName => request.User.ChangeName(newName));
 
             ChangeProperty(request.EditUserInputDto.Surname,
                 newSurname => ValidateFunc(newSurname, request.User.Surname),
-                newSurname => request.User.ChangePatronymic(newSurname));
+                newSurname => request.User.ChangeSurname(newSurname));
 
             ChangeProperty(request.EditUserInputDto.Patronymic,
                 newPatronymic => ValidateFunc(newPatronymic, request.User.Patronymic),
@@ -40,7 +40,19 @@ namespace UserService.Features.UserManagement.Edit
 
             ChangeProperty(request.EditUserInputDto.CompanyName,
                 newCompanyName => ValidateFunc(newCompanyName, request.User.Position),
+                newCompanyName => request.User.ChangeCompanyName(newCompanyName));
+
+            ChangeProperty(request.EditUserInputDto.Salary,
+                newSalary => newSalary != request.EditUserInputDto.Salary && newSalary > 0,
+                newSalary => request.User.ChangeSalary(newSalary));
+
+            ChangeProperty(request.EditUserInputDto.CompanyName,
+                newCompanyName => ValidateFunc(newCompanyName, request.User.Position),
                 newCompanyName => request.User.ChangePosition(newCompanyName));
+
+            ChangeProperty(request.EditUserInputDto.RecruitmentDate,
+                newRecruitmentDate => newRecruitmentDate <= DateTime.UtcNow.Date,
+                newRecruitmentDate => request.User.ChangeRecruitmentDate(newRecruitmentDate));
 
 
             await DbContext.SaveChangesAsync(cancellationToken);
