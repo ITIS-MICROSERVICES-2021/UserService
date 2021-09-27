@@ -60,7 +60,12 @@ namespace UserService.Core.Entities
         {
             Name = name;
         }
-        
+
+        public void ChangePatronymic(string patronymic)
+        {
+            Patronymic = patronymic;
+        }
+
         public void ChangePosition(string position)
         {
             Position = position;
@@ -70,15 +75,10 @@ namespace UserService.Core.Entities
         {
             ManagerFullName = manager;
         }
-        
-        public void ChangePatronymic(string patronymic)
+
+        public void ChangeCompanyName(string companyName)
         {
-            Patronymic = patronymic;
-        }
-        
-        public void ChangeCompanyFullName(string companyFullName)
-        {
-            CompanyFullName = companyFullName;
+            CompanyFullName = companyName;
         }
 
         #endregion
