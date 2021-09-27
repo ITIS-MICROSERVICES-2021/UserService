@@ -94,7 +94,6 @@ namespace UserService.Core.Entities
             CompanyFullName = companyName;
         }
 
-
         public void ChangeSalary(long salary)
         {
             Salary = salary;
