@@ -5,6 +5,7 @@
 
 #macos
 .DS-Store
+.DS_Store
 
 #Idea files
 .idea
