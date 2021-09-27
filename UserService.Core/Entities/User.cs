@@ -5,10 +5,8 @@ namespace UserService.Core.Entities
 {
     public class User : IdentityUser<long>
     {
-        protected User(long salary, DateTime recruitmentDate)
+        protected User()
         {
-            Salary = salary;
-            RecruitmentDate = recruitmentDate;
         }
 
         public User(string surname, string name, string patronymic, string position, string managerFullName,
