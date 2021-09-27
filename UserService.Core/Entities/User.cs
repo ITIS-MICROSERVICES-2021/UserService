@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace UserService.Core.Entities
 {
     public class User : IdentityUser<long>
     {
-        protected User()
+        protected User(long salary, DateTime recruitmentDate)
         {
+            Salary = salary;
+            RecruitmentDate = recruitmentDate;
         }
 
         public User(string surname, string name, string patronymic, string position, string managerFullName,
-            string companyFullName)
+            string companyFullName, long salary, DateTime recruitmentDate)
         {
             Surname = surname;
             Name = name;
@@ -17,6 +20,8 @@ namespace UserService.Core.Entities
             Position = position;
             ManagerFullName = managerFullName;
             CompanyFullName = companyFullName;
+            Salary = salary;
+            RecruitmentDate = recruitmentDate;
         }
 
         /// <summary>
@@ -49,13 +54,23 @@ namespace UserService.Core.Entities
         /// </summary>
         public string CompanyFullName { get; protected set; }
 
+        /// <summary>
+        /// Заработная плата
+        /// </summary>
+        public long Salary { get; protected set; }
+
+        /// <summary>
+        /// Дата приема работу
+        /// </summary>
+        public DateTime RecruitmentDate { get; protected set; }
+
         #region EditProperties
 
         public void ChangeSurname(string surname)
         {
             Surname = surname;
         }
-        
+
         public void ChangeName(string name)
         {
             Name = name;
@@ -70,7 +85,7 @@ namespace UserService.Core.Entities
         {
             Position = position;
         }
-        
+
         public void ChangeManager(string manager)
         {
             ManagerFullName = manager;
@@ -79,6 +94,17 @@ namespace UserService.Core.Entities
         public void ChangeCompanyName(string companyName)
         {
             CompanyFullName = companyName;
+        }
+
+
+        public void ChangeSalary(long salary)
+        {
+            Salary = salary;
+        }
+
+        public void ChangeRecruitmentDate(DateTime recruitmentDate)
+        {
+            RecruitmentDate = recruitmentDate;
         }
 
         #endregion
