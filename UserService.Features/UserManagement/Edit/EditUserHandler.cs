@@ -24,11 +24,11 @@ namespace UserService.Features.UserManagement.Edit
 
             ChangeProperty(request.EditUserInputDto.Surname,
                 newSurname => ValidateFunc(newSurname, request.User.Surname),
-                newSurname => request.User.ChangePatronymic(newSurname));
+                newSurname => request.User.ChangeSurname(newSurname));
 
             ChangeProperty(request.EditUserInputDto.Patronymic,
                 newPatronymic => ValidateFunc(newPatronymic, request.User.Patronymic),
-                newPatronymic => request.User.ChangeSurname(newPatronymic));
+                newPatronymic => request.User.ChangePatronymic(newPatronymic));
 
             ChangeProperty(request.EditUserInputDto.ManagerFullName,
                 newManagerFullName => ValidateFunc(newManagerFullName, request.User.ManagerFullName),
