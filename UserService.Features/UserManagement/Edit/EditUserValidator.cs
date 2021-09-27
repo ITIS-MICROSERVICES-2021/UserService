@@ -43,7 +43,7 @@ namespace UserService.Features.UserManagement.Edit
             
             RuleFor(x => x.EditUserInputDto.Salary)
                 .GreaterThan(0)
-                .WithMessage("Заработная плата не должна быть больше нуля")
+                .WithMessage("Заработная плата не должна быть меньше нуля")
                 .WithErrorCode("422");
             
             RuleFor(x => x.EditUserInputDto.RecruitmentDate)
