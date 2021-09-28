@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using System.Reflection;
 using FluentValidation;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Identity;
 using UserService.Core.Entities;
 
 namespace UserService.Features.UserManagement.Create
@@ -10,7 +12,11 @@ namespace UserService.Features.UserManagement.Create
     {
         public CreateUserValidator()
         {
-            RuleForEach(userFields => typeof(User).GetProperties().ToList()).NotNull();
+            var baseProperties = typeof(IdentityUser).GetProperties().Select(x => x.Name);
+            var properties = typeof(User).GetProperties()
+                .Where(x => !baseProperties.Contains(x.Name))
+                .ToList();
+            RuleFor(x => properties).NotNull();
         }
     }
 }
