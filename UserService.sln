@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Data", "UserSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Features", "UserService.Features\UserService.Features.csproj", "{59F0D024-F016-43A7-BA27-CA54ACF0DBD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Cache", "UserService.Cache\UserService.Cache.csproj", "{C430527E-D7B0-41E0-955C-DF62A5140834}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,17 +72,5 @@ Global
 		{59F0D024-F016-43A7-BA27-CA54ACF0DBD6}.Release|x64.Build.0 = Release|Any CPU
 		{59F0D024-F016-43A7-BA27-CA54ACF0DBD6}.Release|x86.ActiveCfg = Release|Any CPU
 		{59F0D024-F016-43A7-BA27-CA54ACF0DBD6}.Release|x86.Build.0 = Release|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Debug|x64.Build.0 = Debug|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Debug|x86.Build.0 = Debug|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Release|x64.ActiveCfg = Release|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Release|x64.Build.0 = Release|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Release|x86.ActiveCfg = Release|Any CPU
-		{C430527E-D7B0-41E0-955C-DF62A5140834}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
