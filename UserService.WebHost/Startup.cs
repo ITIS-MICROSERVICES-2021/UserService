@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using UserService.Cache;
 using UserService.Core.Base.Validation;
 using UserService.Core.Entities;
 using UserService.Data;
@@ -41,6 +42,7 @@ namespace UserService.WebHost
             services.AddHttpClient();
             services.AddAutoMapper(mc => { mc.AddMaps(typeof(UserManagementController).Assembly); });
             services.AddScoped<DbContext, UserServiceDbContext>();
+            services.AddRedis(Configuration.GetConnectionString("Redis"), 1);
             RegisterMediaR(services);
         }
 
