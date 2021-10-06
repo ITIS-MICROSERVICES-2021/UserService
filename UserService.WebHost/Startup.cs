@@ -32,7 +32,7 @@ namespace UserService.WebHost
                 .UseNpgsql(Configuration.GetConnectionString("PostgresLocal")));
             services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<UserServiceDbContext>();
-            
+
             services.AddControllers()
                 .AddApplicationPart(typeof(UserManagementController).Assembly)
                 .AddNewtonsoftJson();
@@ -43,10 +43,8 @@ namespace UserService.WebHost
             services.AddHttpClient();
             services.AddAutoMapper(mc => { mc.AddMaps(typeof(UserManagementController).Assembly); });
             services.AddScoped<DbContext, UserServiceDbContext>();
-            services.AddStackExchangeRedisExtensions<MsgPackObjectSerializer>((options) =>
-            {
-                return Configuration.GetSection("Redis").Get<RedisConfiguration>();
-            });
+            services.AddStackExchangeRedisExtensions<MsgPackObjectSerializer>(Configuration.GetSection("Redis")
+                .Get<RedisConfiguration>());
             RegisterMediaR(services);
         }
 
