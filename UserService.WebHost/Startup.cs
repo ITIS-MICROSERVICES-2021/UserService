@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis.Extensions.Core.Configuration;
+using StackExchange.Redis.Extensions.MsgPack;
 using UserService.Core.Base.Validation;
 using UserService.Core.Entities;
 using UserService.Data;
@@ -30,7 +32,7 @@ namespace UserService.WebHost
                 .UseNpgsql(Configuration.GetConnectionString("PostgresLocal")));
             services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<UserServiceDbContext>();
-            
+
             services.AddControllers()
                 .AddApplicationPart(typeof(UserManagementController).Assembly)
                 .AddNewtonsoftJson();
@@ -41,6 +43,8 @@ namespace UserService.WebHost
             services.AddHttpClient();
             services.AddAutoMapper(mc => { mc.AddMaps(typeof(UserManagementController).Assembly); });
             services.AddScoped<DbContext, UserServiceDbContext>();
+            services.AddStackExchangeRedisExtensions<MsgPackObjectSerializer>(Configuration.GetSection("Redis")
+                .Get<RedisConfiguration>());
             RegisterMediaR(services);
         }
 
