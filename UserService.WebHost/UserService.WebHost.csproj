@@ -16,7 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserService.Cache\UserService.Cache.csproj" />
       <ProjectReference Include="..\UserService.Core\UserService.Core.csproj" />
       <ProjectReference Include="..\UserService.Data\UserService.Data.csproj" />
       <ProjectReference Include="..\UserService.Features\UserService.Features.csproj" />
