@@ -6,7 +6,7 @@ using UserService.Features.UserManagement.Create;
 namespace UserService.Test.Unit
 {
     [TestFixture]
-    public class CreateUserTest
+    public class CreateUserValidationTest
     {
         private static CreateUserInputDto Dto => new()
         {
