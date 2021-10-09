@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using UserService.Features.UserManagement.Create;
 
@@ -20,18 +21,28 @@ namespace UserService.Test.Unit
             TelegramId = Guid.NewGuid()
         };
         
+        private string IncorrectValue { get; set; }
+        
         private CreateUserValidator Validator { get; set; }
         
         [SetUp]
         public void Setup()
         {
             Validator = new CreateUserValidator();
+            IncorrectValue = new string(Enumerable.Repeat('a', 65).ToArray());
         }
         
         [Test]
         public void ValidationFailsIfSurnameIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Surname), null);
+            CheckIfPropertyIsCorrect(dto);
+        }
+        
+        [Test]
+        public void ValidationFailsIfSurnameLengthGreaterThanSixtyFour()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Surname), IncorrectValue);
             CheckIfPropertyIsCorrect(dto);
         }
         
@@ -43,6 +54,13 @@ namespace UserService.Test.Unit
         }
         
         [Test]
+        public void ValidationFailsIfNameLengthGreaterThanSixtyFour()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Name), IncorrectValue);
+            CheckIfPropertyIsCorrect(dto);
+        }
+        
+        [Test]
         public void ValidationFailsIfPatronymicIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Patronymic), null);
@@ -50,10 +68,24 @@ namespace UserService.Test.Unit
         }
         
         [Test]
+        public void ValidationFailsIfPatronymicLengthGreaterThanSixtyFour()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Patronymic), IncorrectValue);
+            CheckIfPropertyIsCorrect(dto);
+        }
+        
+        [Test]
         public void ValidationFailsIfPositionIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Position), null);
-            CheckIfPropertyIsCorrect(dto);;
+            CheckIfPropertyIsCorrect(dto);
+        }
+        
+        [Test]
+        public void ValidationFailsIfPositionLengthGreaterThanSixtyFour()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Position), IncorrectValue);
+            CheckIfPropertyIsCorrect(dto);
         }
         
         [Test]
@@ -64,13 +96,55 @@ namespace UserService.Test.Unit
         }
         
         [Test]
+        public void ValidationFailsIfManagerFullNameLengthGreaterThanSixtyFour()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.ManagerFullName), IncorrectValue);
+            CheckIfPropertyIsCorrect(dto);
+        }
+        
+        [Test]
         public void ValidationFailsIfCompanyNameIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.CompanyName), null);
             CheckIfPropertyIsCorrect(dto);
         }
+        
+        [Test]
+        public void ValidationFailsIfCompanyNameLengthGreaterThanSixtyFour()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.CompanyName), IncorrectValue);
+            CheckIfPropertyIsCorrect(dto);
+        }
 
-        private CreateUserInputDto GenerateWrongDto<T>(string incorrectPropertyName, T incorrectValue)
+        [Test]
+        public void ValidationFailsIfSalaryEqualToZero()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Salary), 0);
+            CheckIfPropertyIsCorrect(dto);
+        }
+        
+        [Test]
+        public void ValidationFailsIfSalaryLessThanZero()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Salary), -15400);
+            CheckIfPropertyIsCorrect(dto);
+        }
+
+        [Test]
+        public void ValidationFailsIfRecruitmentDateGreaterThanNow()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.RecruitmentDate), DateTime.UtcNow.Date.AddMonths(1));
+            CheckIfPropertyIsCorrect(dto);
+        }
+
+        [Test]
+        public void ValidationFailsIfTelegramIdIsEmpty()
+        {
+            var dto = GenerateWrongDto(nameof(CreateUserInputDto.Salary), Guid.Empty);
+            CheckIfPropertyIsCorrect(dto);
+        }
+
+        private static CreateUserInputDto GenerateWrongDto<T>(string incorrectPropertyName, T incorrectValue)
         {
             var dto = Dto;
             switch (incorrectPropertyName)
