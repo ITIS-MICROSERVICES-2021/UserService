@@ -31,6 +31,12 @@ namespace UserService.Test.Unit
             Validator = new CreateUserValidator();
             IncorrectValue = new string(Enumerable.Repeat('a', 65).ToArray());
         }
+
+        [Test]
+        public void ValidationFailsIfDtoIsNull()
+        {
+            CheckIfPropertyIsCorrect(null);
+        }
         
         [Test]
         public void ValidationFailsIfSurnameIsNull()
