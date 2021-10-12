@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EntityFrameworkCore.Testing.Moq;
 using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -27,24 +28,25 @@ namespace UserService.Test.Unit
             TelegramId = Guid.NewGuid()
         };
         
-        private DbContextMock<UserServiceDbContext> Mock { get; set; }
+        private UserServiceDbContext MockedDbContext { get; set; }
 
         private CreateUserHandler Handler { get; set; }
-        
+
         [SetUp]
         public void Setup()
         {
-            Mock = new DbContextMock<UserServiceDbContext>(new DbContextOptions<UserServiceDbContext>());
-            Mock.CreateDbSetMock(context => context.Users, new List<User>());
-            Handler = new CreateUserHandler(Mock.Object, null);
+            var dbContextOptions = new DbContextOptionsBuilder<UserServiceDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+            MockedDbContext = Create.MockedDbContextFor<UserServiceDbContext>(dbContextOptions);
+            Handler = new CreateUserHandler(MockedDbContext, null);
         }
 
         [Test]
         public async Task HandlingAddsUserToTheDatabase()
         {
             var command = new CreateUserCommand(Dto);
-            await Handler.Handle(command, default);
-            Assert.NotNull(Mock.Object.Users.FirstOrDefault());
+            var userEntity = await Handler.Handle(command, default);
+            Assert.NotNull(MockedDbContext.Users.FirstOrDefault(user => user.Id == userEntity.Id));
         }
     }
 }
