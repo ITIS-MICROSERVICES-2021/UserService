@@ -35,125 +35,125 @@ namespace UserService.Test.Unit
         [Test]
         public void ValidationFailsIfDtoIsNull()
         {
-            CheckIfPropertyIsCorrect(null, false);
+            CheckWhetherValidationFails(null, true);
         }
         
         [Test]
         public void ValidationFailsIfSurnameIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Surname), null);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfSurnameLengthGreaterThanSixtyFour()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.Surname), IncorrectValue);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfNameIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Name), null);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfNameLengthGreaterThanSixtyFour()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.Name), IncorrectValue);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfPatronymicIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Patronymic), null);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfPatronymicLengthGreaterThanSixtyFour()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.Patronymic), IncorrectValue);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfPositionIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.Position), null);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfPositionLengthGreaterThanSixtyFour()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.Position), IncorrectValue);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfManagerFullNameIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.ManagerFullName), null);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfManagerFullNameLengthGreaterThanSixtyFour()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.ManagerFullName), IncorrectValue);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfCompanyNameIsNull()
         {
             var dto = GenerateWrongDto<string>(nameof(CreateUserInputDto.CompanyName), null);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfCompanyNameLengthGreaterThanSixtyFour()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.CompanyName), IncorrectValue);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
 
         [Test]
         public void ValidationFailsIfSalaryEqualToZero()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.Salary), 0);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
         
         [Test]
         public void ValidationFailsIfSalaryLessThanZero()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.Salary), -15400);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
 
         [Test]
         public void ValidationFailsIfRecruitmentDateGreaterThanNow()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.RecruitmentDate), DateTime.UtcNow.Date.AddMonths(1));
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
 
         [Test]
         public void ValidationFailsIfTelegramIdIsEmpty()
         {
             var dto = GenerateWrongDto(nameof(CreateUserInputDto.TelegramId), Guid.Empty);
-            CheckIfPropertyIsCorrect(dto, false);
+            CheckWhetherValidationFails(dto, true);
         }
 
         [Test]
         public void ValidationDoesNotFailIfDtoIsCorrect()
         {
-            CheckIfPropertyIsCorrect(Dto, true);
+            CheckWhetherValidationFails(Dto, false);
         }
 
         private static CreateUserInputDto GenerateWrongDto<T>(string incorrectPropertyName, T incorrectValue)
@@ -195,14 +195,14 @@ namespace UserService.Test.Unit
             return dto;
         }
 
-        private void CheckIfPropertyIsCorrect(CreateUserInputDto dto, bool condition)
+        private void CheckWhetherValidationFails(CreateUserInputDto dto, bool condition)
         {
             var command = new CreateUserCommand(dto);
             var result = Validator.Validate(command);
             if (condition)
-                Assert.True(result.IsValid);
-            else
                 Assert.False(result.IsValid);
+            else
+                Assert.True(result.IsValid);
         }
     }
 }
