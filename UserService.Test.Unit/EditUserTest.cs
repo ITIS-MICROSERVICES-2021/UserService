@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using UserService.Core.Entities;
 using UserService.Data;
 using UserService.Features.UserManagement.Create;
 using UserService.Features.UserManagement.Edit;
+using EntityFrameworkCore.Testing.Moq;
 
 namespace UserService.Test.Unit
 {
@@ -31,26 +31,27 @@ namespace UserService.Test.Unit
         private User NewUser = new("NewSurname", "NewName", "NewSurname", "Newposition", "NewmanagerFullName",
             "NewcompanyFullName", 123456, DateTime.UtcNow.Date);
 
-        private DbContextMock<UserServiceDbContext> Mock { get; set; }
-
         private CreateUserHandler Handler { get; set; }
 
         private EditUserHandler EditHandler { get; set; }
 
+        private UserServiceDbContext MockedDbContext { get; set; }
+
         [SetUp]
         public void Setup()
         {
-            Mock = new DbContextMock<UserServiceDbContext>(new DbContextOptions<UserServiceDbContext>());
-            Mock.CreateDbSetMock(context => context.Users, new List<User>());
-            Handler = new CreateUserHandler(Mock.Object, null);
+
+            var dbContextOptions = new DbContextOptionsBuilder<UserServiceDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+            MockedDbContext = Create.MockedDbContextFor<UserServiceDbContext>(dbContextOptions);
+            Handler = new CreateUserHandler(MockedDbContext, null);
         }
 
         [Test]
         public async Task EditSurname()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = NewUser.Surname,
@@ -65,15 +66,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().Surname, NewUser.Surname);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().Surname, NewUser.Surname);
         }
 
         [Test]
         public async Task EditName()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -88,15 +88,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().Name, NewUser.Name);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().Name, NewUser.Name);
         }
 
         [Test]
         public async Task EditPatronymic()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -111,15 +110,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().Patronymic, NewUser.Patronymic);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().Patronymic, NewUser.Patronymic);
         }
 
         [Test]
         public async Task EditPosition()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -134,15 +132,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().Position, NewUser.Position);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().Position, NewUser.Position);
         }
 
         [Test]
         public async Task EditManagerFullName()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -157,15 +154,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().ManagerFullName, NewUser.ManagerFullName);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().ManagerFullName, NewUser.ManagerFullName);
         }
 
         [Test]
         public async Task EditCompanyName()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -180,15 +176,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().CompanyFullName, NewUser.CompanyFullName);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().CompanyFullName, NewUser.CompanyFullName);
         }
 
         [Test]
         public async Task EditSalary()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -203,15 +198,14 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().Salary, NewUser.Salary);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().Salary, NewUser.Salary);
         }
 
         [Test]
         public async Task EditRecruitmentDate()
         {
-            await AddUser();
+            var user = await AddUser();
 
-            var user = Mock.Object.Users.FirstOrDefault();
             var EditDto = new EditUserInputDto()
             {
                 Surname = nameof(CreateUserInputDto.Surname),
@@ -226,21 +220,25 @@ namespace UserService.Test.Unit
 
             await EditUser(user, EditDto);
 
-            Assert.AreEqual(Mock.Object.Users.FirstOrDefault().RecruitmentDate, NewUser.RecruitmentDate);
+            Assert.AreEqual(MockedDbContext.Users.FirstOrDefault().RecruitmentDate, NewUser.RecruitmentDate);
         }
 
         private async Task EditUser(User user, EditUserInputDto EditDto)
         {
-            EditHandler = new EditUserHandler(Mock.Object, null);
+            EditHandler = new EditUserHandler(MockedDbContext, null);
 
             var editCommand = new EditUserCommand(EditDto, user);
             await EditHandler.Handle(editCommand, default);
         }
 
-        private async Task AddUser()
+        private async Task<User> AddUser()
         {
             var command = new CreateUserCommand(Dto);
             await Handler.Handle(command, default);
+
+            var userEntity = await Handler.Handle(command, default);
+
+            return MockedDbContext.Users.FirstOrDefault(user => user.Id == userEntity.Id);
         }
     }
 }
